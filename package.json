@@ -1,0 +1,19 @@
+{
+  "name": "configin",
+  "version": "1.0.0",
+  "description": "ConfigIn NodeJS SDK",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/configin/configin-nodejs"
+  },
+  "author": "Duanckham",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "dependencies": {
+    "eccrypto": "^1.1.0",
+    "hasha": "^3.0.0",
+    "moment": "^2.19.1",
+    "request": "^2.83.0",
+    "secp256k1": "^3.6.1"
+  }
+}
