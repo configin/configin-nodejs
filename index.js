@@ -29,12 +29,12 @@ function pull(hash, accessKey) {
   };
 
   request(options, (err, _, body) => {
-    let { message, data } = body;
-
-    if (err) {
+    if (err || !body) {
       console.error('Request configin API failed, error:', err);
       return;
     }
+
+    let { message, data } = body;
 
     if (message === 'success') {
       if (!data.cipher) {
