@@ -36,7 +36,7 @@ function pull(hash, accessKey) {
       return;
     }
 
-    if (message === 'SUCCESS') {
+    if (message === 'success') {
       if (!data.cipher) {
         return;
       }
