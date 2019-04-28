@@ -52,8 +52,10 @@ function pull(hash, accessKey) {
 }
 
 exports.use = (hash, accessKey, parser) => {
-  pull(hash, accessKey);
-  setInterval(() => pull(hash, accessKey), 10000);
+  setInterval(function looper() {
+    pull(hash, accessKey)
+    return looper;
+  }(), 10000);
 
   return () => {
     if (caches[hash]) {
