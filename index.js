@@ -2,6 +2,7 @@ const eccrypto = require('eccrypto');
 const hasha = require('hasha');
 const moment = require('moment');
 const request = require('request');
+const schedule = require('node-schedule');
 const caches = {};
 const API = 'https://configin.com';
 
@@ -14,7 +15,7 @@ function decode(obj) {
   return result;
 };
 
-function pull(hash, accessKey) {
+function pull(hash, accessKey, verbose) {
   let date = moment().format('YYYYMMDDHH');
   let token = hasha(accessKey + hasha(accessKey + date));
   let updated = 0;
@@ -30,7 +31,10 @@ function pull(hash, accessKey) {
 
   request(options, (err, _, body) => {
     if (err || !body) {
-      console.error('Request configin API failed, error:', err);
+      if (verbose) {
+        console.error('Request configin API failed, error:', err);
+      }
+      
       return;
     }
 
@@ -51,11 +55,10 @@ function pull(hash, accessKey) {
   });
 }
 
-exports.use = (hash, accessKey, parser) => {
-  setInterval(function looper() {
-    pull(hash, accessKey)
-    return looper;
-  }(), 10000);
+exports.use = (hash, accessKey, parser, verbose) => {
+  schedule.scheduleJob('*/10 * * * * *', async () => {
+    pull(hash, accessKey, verbose)
+  });
 
   return () => {
     if (caches[hash]) {
